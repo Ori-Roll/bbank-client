@@ -1,9 +1,7 @@
 import { PropsWithChildren } from 'react';
 import { useEditMode } from '../../../store/useEditMode';
-import { PeriodicForm } from '../PerriodicForm/PerriodicForm';
 import { AccountData, PeriodicData } from '../../../interfaces/interfaces';
 import { useState } from 'react';
-import { set } from 'react-hook-form';
 
 type AccountProps = {
   account: AccountData;
@@ -90,10 +88,10 @@ const AccountPeriodics = (props: AccountPeriodicsProps) => {
         )}
         {editMode && addPeriodicMode && (
           <>
-            <PeriodicForm
+            {/* <PeriodicForm
               onSubmit={handleAddPeriodic}
               periodic={{ accountId }}
-            />
+            /> */}
             <button onClick={handleAddPeriodicModeClick}>CANCEL</button>
           </>
         )}
