@@ -1,9 +1,8 @@
 import { ReactNode } from 'react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { MantineProvider } from '@mantine/core';
 import '@mantine/core/styles.css';
-
-const queryClient = new QueryClient();
+import queryClient from '../../config/queryClient';
 
 export const Providers = ({ children }: { children: ReactNode }) => {
   return (
