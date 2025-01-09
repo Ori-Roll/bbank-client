@@ -1,8 +1,6 @@
 import './App.css';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Dashboard } from './components/data/Dashboard/Dashboard';
-
-const queryClient = new QueryClient();
+import DashboardLayout from './components/data/Dashboard/Dashboard';
+import { Providers } from './components/Providers/Providers';
 
 const LoginBtnTest = () => {
   const loginWithGoogle = async () => {
@@ -18,10 +16,10 @@ const LoginBtnTest = () => {
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
+    <Providers>
+      <DashboardLayout />
       <LoginBtnTest />
-      <Dashboard />
-    </QueryClientProvider>
+    </Providers>
   );
 }
 
