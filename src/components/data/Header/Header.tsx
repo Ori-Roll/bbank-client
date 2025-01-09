@@ -1,4 +1,4 @@
-import classes from './Dashboard.module.css';
+import classes from './Header.module.css';
 
 import {
   IconChevronDown,
