@@ -2,19 +2,30 @@ import { PropsWithChildren } from 'react';
 import { useEditMode } from '../../../store/useEditMode';
 import { AccountData, PeriodicData } from '../../../interfaces/interfaces';
 import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { Loader } from '@mantine/core';
 
-type AccountProps = {
-  account: AccountData;
-};
+type AccountProps = {};
 
-export const Account = (props: AccountProps) => {
-  const { account } = props;
-  console.log('props', props);
+export const Account = () => {
+  const {
+    data: currentAccount,
+    isLoading: currentAccountLoading,
+    error: currentAccountError,
+    isFetching: currentAccountFetching,
+  } = useQuery<AccountData>({
+    queryKey: ['currentAccount'],
+  });
+
   return (
     <>
-      <div>{`hello ${account.kidName} :)`}</div>
-      <div>{`You have ${account.current?.sum} $`}</div>
-      <AccountPeriodics account={account} />
+      {currentAccountFetching ? (
+        <Loader size={30} />
+      ) : (
+        currentAccount?.id && (
+          <div>Current Account: {JSON.stringify(currentAccount, null, 2)}</div>
+        )
+      )}
     </>
   );
 };

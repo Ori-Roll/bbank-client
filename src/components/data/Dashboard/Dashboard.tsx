@@ -1,13 +1,40 @@
-import { AppShell } from '@mantine/core';
+import { AppShell, Burger, Container } from '@mantine/core';
 import Header from '../Header/Header';
+import { Account } from '../Account/Account';
+import { useState } from 'react';
+
+const MainWrapper: React.FC<React.PropsWithChildren> = ({ children }) => {
+  return (
+    <Container fluid style={{ padding: '30px' }}>
+      {children}
+    </Container>
+  );
+};
 
 const DashboardLayout = () => {
+  const [opened, setOpened] = useState(false);
+
+  const toggle = () => setOpened((openedState) => !openedState);
+
   return (
-    <AppShell padding={30}>
+    <AppShell
+      padding={30}
+      navbar={{
+        width: 100,
+        breakpoint: 'sm',
+        collapsed: { mobile: !opened },
+      }}
+    >
       <AppShell.Header pl={16} pr={16}>
+        <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
         <Header />
       </AppShell.Header>
-      <AppShell.Main>This is main</AppShell.Main>
+      <AppShell.Main>
+        <AppShell.Navbar p="md">Navbar</AppShell.Navbar>
+        <MainWrapper>
+          <Account />
+        </MainWrapper>
+      </AppShell.Main>
     </AppShell>
   );
 };
