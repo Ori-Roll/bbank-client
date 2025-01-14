@@ -1,14 +1,12 @@
-import { AppShell, Burger, Container } from '@mantine/core';
+import { AppShell, Burger, Container, Modal } from '@mantine/core';
 import Header from '../Header/Header';
 import { Account } from '../Account/Account';
 import { useState } from 'react';
+import Navbar from '../Navbar/Navbar';
+import ModalsController from '../Modals/ModalsController';
 
 const MainWrapper: React.FC<React.PropsWithChildren> = ({ children }) => {
-  return (
-    <Container fluid style={{ padding: '30px' }}>
-      {children}
-    </Container>
-  );
+  return <Container>{children}</Container>;
 };
 
 const DashboardLayout = () => {
@@ -20,17 +18,21 @@ const DashboardLayout = () => {
     <AppShell
       padding={30}
       navbar={{
-        width: 100,
+        width: 300,
         breakpoint: 'sm',
         collapsed: { mobile: !opened },
       }}
     >
-      <AppShell.Header pl={16} pr={16}>
+      <ModalsController />
+      <AppShell.Navbar hiddenFrom="m">
+        <Navbar />
+      </AppShell.Navbar>
+      <AppShell.Header>
         <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
         <Header />
       </AppShell.Header>
+
       <AppShell.Main>
-        <AppShell.Navbar p="md">Navbar</AppShell.Navbar>
         <MainWrapper>
           <Account />
         </MainWrapper>

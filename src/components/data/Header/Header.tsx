@@ -1,9 +1,8 @@
-import classes from './Header.module.css';
-
 import {
   IconChevronDown,
   IconLockAccess,
   IconSettings,
+  IconPlus,
 } from '@tabler/icons-react';
 
 import {
@@ -16,47 +15,33 @@ import {
   useMantineTheme,
   Title,
   Menu,
+  Loader,
+  Paper,
 } from '@mantine/core';
 import { useQuery } from '@tanstack/react-query';
 import { AccountData } from '../../../interfaces/interfaces';
 import { useEffect, useState } from 'react';
 import queryClient from '../../../config/queryClient';
+import { useAddAccountModalToggle } from '../../../store/useModalActive';
+import accountsService from '../../../APIService/accounts';
 
-const getUserAccounts = async () => {
-  const response: Response = await fetch(
-    `http://${import.meta.env.VITE_BASE_API}/api/accounts`,
-    {
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': 'http://localhost:5500',
-      },
-    }
-  );
-  const data: Promise<{
-    accounts: Pick<AccountData, 'id' | 'kidName' | 'current'>[];
-  }> = await response.json();
-  console.log('getUserAccounts got data', data);
-  return data;
-};
-
-const getCurrentAccount = async (selectedId: string) => {
-  console.log('trying to get current account for', selectedId);
-  const response: Response = await fetch(
-    `http://${import.meta.env.VITE_BASE_API}/api/accounts/${selectedId}`,
-    {
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': 'http://localhost:5500',
-      },
-    }
-  );
-  const data: Promise<{ account: AccountData }> = await response.json();
-  console.log('getCurrentAccount got data', data);
-  console.log('data type is ', typeof data);
-  return data;
-};
+// const getCurrentAccount = async (selectedId: string) => {
+//   console.log('trying to get current account for', selectedId);
+//   const response: Response = await fetch(
+//     `http://${import.meta.env.VITE_BASE_API}/api/accounts/${selectedId}`,
+//     {
+//       credentials: 'include',
+//       headers: {
+//         'Content-Type': 'application/json',
+//         'Access-Control-Allow-Origin': 'http://localhost:5500',
+//       },
+//     }
+//   );
+//   const data: Promise<{ account: AccountData }> = await response.json();
+//   console.log('getCurrentAccount got data', data);
+//   console.log('data type is ', typeof data);
+//   return data;
+// };
 
 const Header = () => {
   const theme = useMantineTheme();
@@ -73,40 +58,24 @@ const Header = () => {
   } = useQuery({
     queryKey: ['userAccounts'],
     queryFn: async () => {
-      const resData = await getUserAccounts();
-      if (!selectedAccount?.id && resData?.accounts?.[0])
-        setSelectedAccount(resData?.accounts?.[0]);
-      // invalidate query to get current account
-
-      if (!currentAccount)
-        queryClient.invalidateQueries({
-          queryKey: ['currentAccount'],
-        });
-      return resData.accounts;
+      const resData = await accountsService.getUserAccounts();
+      return resData.data;
     },
     refetchOnMount: false,
   });
 
-  const {
-    data: currentAccount,
-    isLoading: currentAccountLoading,
-    error: currentAccountError,
-  } = useQuery({
+  const { data: currentAccount } = useQuery({
     queryKey: ['currentAccount'],
     queryFn: async () => {
       if (selectedAccount?.id) {
-        const resData = await getCurrentAccount(selectedAccount.id);
-        console.log('currentAccount resData', resData);
-        return resData.account;
+        const resData = await accountsService.getAccount(selectedAccount.id);
+        return resData.data;
       } else {
         return null;
       }
     },
     refetchOnMount: false,
   });
-
-  console.log('now accounts are', accounts);
-  console.log('now currentAccount is', currentAccount);
 
   useEffect(() => {
     console.log('selectedAccount changed', selectedAccount);
@@ -117,8 +86,16 @@ const Header = () => {
     }
   }, [selectedAccount]);
 
+  const activateAddAccountModal = useAddAccountModalToggle(
+    (state) => state.setTrue
+  );
+
+  const addNewAccount = async () => {
+    activateAddAccountModal();
+  };
+
   return (
-    <Group justify="space-between" h="100%">
+    <Group justify="space-between">
       <Title>
         <Text
           inherit
@@ -135,13 +112,12 @@ const Header = () => {
             position="top-start"
             width={220}
             withinPortal
-            disabled={accountsLoading}
           >
             <Menu.Target>
               <Button
                 rightSection={<IconChevronDown size={18} stroke={1.5} />}
-                pr={12}
                 variant="outline"
+                w={200}
               >
                 <Center inline>
                   <Box component="span" mr={5}>
@@ -152,13 +128,15 @@ const Header = () => {
             </Menu.Target>
 
             <Menu.Dropdown style={{ overflow: 'hidden' }}>
-              {accountsLoading && <Text>Loading...</Text>}
-              {accountsError && <Text>Error: {accountsError.message}</Text>}
-
               <Group justify="space-between" px="md">
-                {accounts &&
+                {accountsLoading ? (
+                  <Center w="100%" h={70}>
+                    <Loader />
+                  </Center>
+                ) : (
+                  accounts &&
                   accounts.map((account) => (
-                    <Group key={account.id} justify="space-between" px="md">
+                    <Group key={account.id} justify="flex-start" px="md">
                       <Menu.Item
                         variant="transparent"
                         fw={500}
@@ -166,11 +144,17 @@ const Header = () => {
                         onClick={() => {
                           setSelectedAccount(account);
                         }}
+                        w="100%"
                       >
-                        {account.kidName}
+                        <Text w="100%">{account.kidName}</Text>
                       </Menu.Item>
                     </Group>
-                  ))}
+                  ))
+                )}
+                <Button w="100%" onClick={addNewAccount}>
+                  <IconPlus />
+                  Add account
+                </Button>
                 <Anchor href="#" fz="xs">
                   Edit accounts
                 </Anchor>

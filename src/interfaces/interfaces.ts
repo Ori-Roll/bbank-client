@@ -22,14 +22,14 @@ export type PeriodicData = {
 
 export type Current = {
   sum: number;
-  accountId: string;
+  accountId?: string;
 };
 
 export type AccountData = {
   id: string;
   userId: string;
   kidName: string;
-  current?: Current;
+  current: Current;
   periodics: PeriodicData[];
 };
 
