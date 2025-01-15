@@ -1,8 +1,6 @@
 import { Route, Routes } from 'react-router';
-
 import DashboardLayout from '../data/Dashboard/Dashboard';
 import Login from '../auth/Login/Login';
-
 import PrivateRoute from '../auth/PrivateRoute/PrivateRoute';
 
 type BaseRoutesProps = {};

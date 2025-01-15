@@ -1,7 +1,7 @@
 import { Flex, Paper, Text, TextInput } from '@mantine/core';
-import style from './AccountBasics.module.css';
+import style from './CurrentSum.module.css';
 
-type AmountDisplayProps<E extends boolean> = {
+type CurrentSumProps<E extends boolean> = {
   currentSum: number;
   edit?: E;
   handleChange?: E extends true
@@ -9,7 +9,7 @@ type AmountDisplayProps<E extends boolean> = {
     : undefined;
 };
 
-const AmountDisplay = <E extends boolean>(props: AmountDisplayProps<E>) => {
+const CurrentSum = <E extends boolean>(props: CurrentSumProps<E>) => {
   const { currentSum, edit = false, handleChange } = props;
 
   return (
@@ -40,4 +40,4 @@ const AmountDisplay = <E extends boolean>(props: AmountDisplayProps<E>) => {
   );
 };
 
-export default AmountDisplay;
+export default CurrentSum;

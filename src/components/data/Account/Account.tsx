@@ -4,7 +4,7 @@ import { AccountData, PeriodicData } from '../../../interfaces/interfaces';
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Container, Loader } from '@mantine/core';
-import AccountBasics from '../../base/AccountBasics/AccountBasics';
+import CurrentSum from '../../base/CurrentSum/CurrentSum';
 
 type AccountProps = {};
 
@@ -28,7 +28,7 @@ export const Account = () => {
           <div>
             Current Account: {JSON.stringify(currentAccount, null, 2)}
             <Container>
-              <AccountBasics currentSum={currentAccount.current.sum} />
+              <CurrentSum currentSum={currentAccount.current.sum} />
             </Container>
           </div>
         )
