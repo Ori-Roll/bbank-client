@@ -7,7 +7,7 @@ import {
   Space,
   Loader,
 } from '@mantine/core';
-import { AccountData } from '../../../interfaces/interfaces';
+import { AccountData } from '../../../types/schemaTypes';
 import { nextSunday } from 'date-fns';
 import { z } from 'zod';
 import { useAddAccountModalToggle } from '../../../store/useModalActive';

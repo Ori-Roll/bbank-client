@@ -1,5 +1,5 @@
 import { client } from './fetchClient/fetchClient';
-import { UserData } from '../interfaces/interfaces';
+import { UserData } from '../types/schemaTypes';
 
 export const userService = {
   getCurrentUser: () => client.get<UserData>('/users/me'),

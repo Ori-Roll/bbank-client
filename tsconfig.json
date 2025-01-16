@@ -7,5 +7,14 @@
     {
       "path": "./tsconfig.node.json"
     }
-  ]
+  ],
+  "moduleResolution": "bundler",
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["*"],
+      "@components/*": ["components/*"],
+      "@store/*": ["store/*"]
+    }
+  }
 }

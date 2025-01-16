@@ -1,6 +1,6 @@
 import { PropsWithChildren } from 'react';
 import { useEditMode } from '../../../store/useEditMode';
-import { AccountData, PeriodicData } from '../../../interfaces/interfaces';
+import { AccountData, PeriodicData } from '../../../types/schemaTypes';
 import { useState } from 'react';
 
 type AccountProps = {

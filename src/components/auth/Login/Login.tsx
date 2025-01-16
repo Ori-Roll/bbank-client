@@ -11,7 +11,7 @@ import {
   BackgroundImage,
 } from '@mantine/core';
 
-import Image from '../../../assets/background.svg';
+import Image from '@/assets/background.svg';
 
 const redirectToLoginWithGoogle = async () => {
   window.location.href = `http://${import.meta.env.VITE_BASE_API}/auth/google`;

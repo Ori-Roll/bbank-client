@@ -19,29 +19,11 @@ import {
   Paper,
 } from '@mantine/core';
 import { useQuery } from '@tanstack/react-query';
-import { AccountData } from '../../../interfaces/interfaces';
+import { AccountData } from '@/types/schemaTypes';
 import { useEffect, useState } from 'react';
-import queryClient from '../../../config/queryClient';
-import { useAddAccountModalToggle } from '../../../store/useModalActive';
-import accountsService from '../../../APIService/accounts';
-
-// const getCurrentAccount = async (selectedId: string) => {
-//   console.log('trying to get current account for', selectedId);
-//   const response: Response = await fetch(
-//     `http://${import.meta.env.VITE_BASE_API}/api/accounts/${selectedId}`,
-//     {
-//       credentials: 'include',
-//       headers: {
-//         'Content-Type': 'application/json',
-//         'Access-Control-Allow-Origin': 'http://localhost:5500',
-//       },
-//     }
-//   );
-//   const data: Promise<{ account: AccountData }> = await response.json();
-//   console.log('getCurrentAccount got data', data);
-//   console.log('data type is ', typeof data);
-//   return data;
-// };
+import queryClient from '@/config/queryClient';
+import { useAddAccountModalToggle } from '@/store/useModalActive';
+import accountsService from '@/APIService/accounts';
 
 const Header = () => {
   const theme = useMantineTheme();

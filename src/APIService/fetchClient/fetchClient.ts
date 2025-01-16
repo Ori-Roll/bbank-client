@@ -6,7 +6,9 @@ export class HttpError extends Error {
   }
 }
 
-async function handleResponse<T>(response: Response): Promise<T> {
+type DataResponse<T> = { data: T };
+
+async function handleResponse<T>(response: Response): Promise<DataResponse<T>> {
   if (!response.ok) {
     if (response.status === 401) {
       //TODO: Add a logout function here and a snackbar to show the user they have been logged out
@@ -15,15 +17,13 @@ async function handleResponse<T>(response: Response): Promise<T> {
     throw new HttpError(response);
   }
 
-  return response.json();
+  return await response.json();
 }
 
 const defaultHeaders = {
   'Content-Type': 'application/json',
   'Access-Control-Allow-Origin': 'http://localhost:5500', //TODO: Change this once possible!
 };
-
-type DataResponse<T> = { data: T };
 
 export const client = {
   get: async <T>(endpoint: string): Promise<DataResponse<T>> => {

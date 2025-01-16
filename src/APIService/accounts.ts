@@ -1,5 +1,5 @@
 import { client } from './fetchClient/fetchClient';
-import { AccountData } from '../interfaces/interfaces';
+import { AccountData } from '../types/schemaTypes';
 
 const accountsService = {
   getUserAccounts: () => client.get<AccountData[]>('/accounts'),
