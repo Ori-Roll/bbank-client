@@ -1,19 +1,19 @@
 import { Flex, Paper, Text, TextInput } from '@mantine/core';
-import style from './CurrentSum.module.css';
+import style from './Current.module.css';
 
-type CurrentSumProps<E extends boolean> = {
-  currentSum: number;
+type CurrentProps<E extends boolean> = {
+  current: number;
   edit?: E;
   handleChange?: E extends true
     ? (e: React.ChangeEvent<HTMLInputElement>) => void
     : undefined;
 };
 
-const CurrentSum = <E extends boolean>(props: CurrentSumProps<E>) => {
-  const { currentSum, edit = false, handleChange } = props;
+const Current = <E extends boolean>(props: CurrentProps<E>) => {
+  const { current, edit = false, handleChange } = props;
 
   return (
-    <Paper shadow="sm" p="xl" radius={40}>
+    <Paper shadow="sm" radius={40}>
       <Flex align="start">
         <Text size="32px" fw={700} mr={5}>
           You currently have
@@ -25,14 +25,14 @@ const CurrentSum = <E extends boolean>(props: CurrentSumProps<E>) => {
         </Text>
         {edit ? (
           <TextInput
-            value={currentSum}
+            value={current}
             onChange={handleChange}
             variant="unstyled"
             size="90px"
           />
         ) : (
           <Text size="220px" fw={700}>
-            {currentSum}
+            {current}
           </Text>
         )}
       </Flex>
@@ -40,4 +40,4 @@ const CurrentSum = <E extends boolean>(props: CurrentSumProps<E>) => {
   );
 };
 
-export default CurrentSum;
+export default Current;

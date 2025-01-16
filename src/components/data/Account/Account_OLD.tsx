@@ -13,7 +13,7 @@ export const Account = (props: AccountProps) => {
   return (
     <>
       <div>{`hello ${account.kidName} :)`}</div>
-      <div>{`You have ${account.current?.sum} $`}</div>
+      <div>{`You have ${account.current} $`}</div>
       <AccountPeriodics account={account} />
     </>
   );

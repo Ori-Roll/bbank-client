@@ -80,9 +80,7 @@ const AddNewAccountModal = (props: AddNewAccountModalProps) => {
   const onSubmit = async (values: z.infer<typeof schema>) => {
     const accountData: Partial<AccountData> = {
       kidName: values.name,
-      current: {
-        sum: values.initialBalance,
-      },
+      current: values.initialBalance,
     };
     try {
       await mutateAsync(accountData);

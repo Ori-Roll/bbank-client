@@ -4,9 +4,7 @@ import { AccountData, PeriodicData } from '../../../interfaces/interfaces';
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Container, Loader } from '@mantine/core';
-import CurrentSum from '../../base/CurrentSum/CurrentSum';
-
-type AccountProps = {};
+import Current from '../../base/Current/Current';
 
 export const Account = () => {
   const {
@@ -19,6 +17,10 @@ export const Account = () => {
     refetchOnMount: false,
   });
 
+  const handleCurrentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value);
+  };
+
   return (
     <>
       {currentAccountFetching ? (
@@ -28,7 +30,7 @@ export const Account = () => {
           <div>
             Current Account: {JSON.stringify(currentAccount, null, 2)}
             <Container>
-              <CurrentSum currentSum={currentAccount.current.sum} />
+              <Current current={currentAccount.current} />
             </Container>
           </div>
         )
