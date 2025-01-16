@@ -2,6 +2,7 @@ import { Center, Loader } from '@mantine/core';
 import { useNavigate } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
 import { userService } from '../../../APIService/users';
+import OopsPage from '../../../components/base/OopsPage/Oops';
 
 type PrivateRouteProps = {
   component: React.ComponentType;
@@ -22,15 +23,12 @@ const PrivateRoute = (props: PrivateRouteProps) => {
     queryFn: async () => {
       const response = await userService.getCurrentUser();
       console.log('response', response);
-      if (!response.data) {
-        throw new Error(response.message || 'No user found'); //TODO: This should come from the be? What is the right flow here?
-      }
       return response.data;
     },
   });
   const navigate = useNavigate();
 
-  if (error || (!user && !isLoading && !isFetching)) {
+  if (error) {
     console.log('IN REDIRECT');
     navigate(redirectPath);
   }
@@ -46,7 +44,7 @@ const PrivateRoute = (props: PrivateRouteProps) => {
       ) : user ? (
         <Component />
       ) : (
-        <div>SOMETHING IS WRONG</div>
+        <OopsPage />
       )}
     </>
   );
