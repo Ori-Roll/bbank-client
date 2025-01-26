@@ -1,7 +1,6 @@
 import { Text, Modal } from '@mantine/core';
 import { useAddAccountModalToggle } from '../../../store/useModalActive';
 import AddNewAccountModal from './AddNewAccountModal';
-import PeriodicForm from '../PerriodicForm/PerriodicForm';
 
 type ModalNiceHeaderProps = { title: string };
 
@@ -25,8 +24,6 @@ type ModalsControllerProps = {};
 // TODO: This is not a nice implementation, but it works for now - change later
 
 const ModalsController = (props: ModalsControllerProps) => {
-  // const isMobile = useMediaQuery('(max-width: 50em)');
-
   const modals = {
     addAccount: {
       name: 'addAccount',

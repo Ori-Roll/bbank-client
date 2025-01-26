@@ -1,4 +1,4 @@
-import { Card, Text, Image, Grid, Stack, Flex } from '@mantine/core';
+import { Text, Flex } from '@mantine/core';
 import { addDays, endOfDay, formatDistanceToNow } from 'date-fns';
 import style from './PeriodicCard.module.css';
 import AnimatedShake from '../Animated/AnimatedShake';

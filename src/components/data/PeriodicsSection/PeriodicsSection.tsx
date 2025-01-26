@@ -7,7 +7,7 @@ import PeriodicCard from '../../../components/base/PeriodicCard/PeriodicCard';
 import { Carousel } from '@mantine/carousel';
 import style from './PeriodicsSection.module.css';
 import { Button, Container, ContainerProps, em } from '@mantine/core';
-import { useMediaQuery } from '@mantine/hooks';
+import { useIsMobile } from '../../../hooks/configHooks.ts';
 
 type PeriodicsSectionProps = {
   account: AccountData;
@@ -40,7 +40,7 @@ const PeriodicsSection = (props: PeriodicsSectionProps) => {
   const handleAddPeriodicSubmit = () => {};
   console.log('periodics', periodics);
 
-  const isMobile = useMediaQuery(`(max-width: ${em(1100)})`);
+  const isMobile = useIsMobile();
   console.log('MOBIOLE', isMobile);
 
   const carouselMobileProps = isMobile

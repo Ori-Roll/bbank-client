@@ -3,6 +3,8 @@ import { Text, Title } from '@mantine/core';
 type AppLogoProps = {};
 
 const AppLogo = (props: AppLogoProps) => {
+  const {} = props;
+
   return (
     <Title>
       <Text

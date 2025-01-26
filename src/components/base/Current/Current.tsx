@@ -1,4 +1,4 @@
-import { Center, Flex, Paper, Space, Text, TextInput } from '@mantine/core';
+import { Flex, Space, Text, TextInput } from '@mantine/core';
 import style from './Current.module.css';
 
 type CurrentProps<E extends boolean> = {
