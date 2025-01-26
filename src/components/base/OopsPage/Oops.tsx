@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './OopsPage.module.css';
+import styles from './Oops.module.css';
 import { Container, Title, Text, Button, Center, Flex } from '@mantine/core';
 import { useNavigate } from 'react-router';
 

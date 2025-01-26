@@ -1,0 +1,30 @@
+.cardWrapper {
+}
+
+.nameWrapper {
+}
+
+.name {
+  font-family: 'Titan One', serif;
+  font-size: 1rem;
+  color: #525252;
+}
+
+.nextTimeDescription {
+  color: '#999';
+}
+
+.formattedAmountNum {
+  font-family: 'Titan One', serif;
+  font-size: 6rem;
+  color: rgb(28, 55, 207);
+  /* line-height: 0px; */
+}
+
+.formattedAmountSign {
+  font-family: 'Titan One', serif;
+  font-size: 4rem;
+  color: #4f7ccf;
+  /* transform: translate(0.1rem, 0.2rem); */
+  text-shadow: 1 1 4px 4px #13336e;
+}

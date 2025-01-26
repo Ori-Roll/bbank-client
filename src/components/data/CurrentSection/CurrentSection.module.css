@@ -1,0 +1,8 @@
+.currentSection {
+  padding: 3rem;
+  border: 1px dashed #999999;
+  border-radius: 70px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}

@@ -1,3 +1,9 @@
+import { useQuery } from '@tanstack/react-query';
+import { AccountData } from '../../../types/schemaTypes';
+import { useAddAccountModalToggle } from '../../../store/useModalActive';
+import accountsService from '../../../APIService/accounts';
+import { useSelectedAccount } from '../../../store/useCurrentAccount.ts';
+
 import {
   IconChevronDown,
   IconLockAccess,
@@ -16,22 +22,32 @@ import {
   Title,
   Menu,
   Loader,
-  Paper,
 } from '@mantine/core';
-import { useQuery } from '@tanstack/react-query';
-import { AccountData } from '@/types/schemaTypes';
-import { useEffect, useState } from 'react';
-import queryClient from '@/config/queryClient';
-import { useAddAccountModalToggle } from '@/store/useModalActive';
-import accountsService from '@/APIService/accounts';
+import { useEditMode } from '../../../store/useEditMode.ts';
 
 const Header = () => {
   const theme = useMantineTheme();
 
-  const [selectedAccount, setSelectedAccount] = useState<Pick<
-    AccountData,
-    'id' | 'kidName' | 'current'
-  > | null>();
+  const selectedAccount = useSelectedAccount((state) => state?.selectedAccount);
+
+  const editMode = useEditMode((state) => state.edit);
+  const toggleEditMode = useEditMode((state) => state.toggle);
+
+  const setSelectedAccount = useSelectedAccount(
+    (state) => state?.setSelectedAccount
+  );
+
+  const activateAddAccountModal = useAddAccountModalToggle(
+    (state) => state.setTrue
+  );
+
+  const addNewAccount = async () => {
+    activateAddAccountModal();
+  };
+
+  const onAccountChange = (account: AccountData) => {
+    setSelectedAccount?.(account);
+  };
 
   const {
     data: accounts,
@@ -41,40 +57,13 @@ const Header = () => {
     queryKey: ['userAccounts'],
     queryFn: async () => {
       const resData = await accountsService.getUserAccounts();
+      if (!selectedAccount && resData.data.length) {
+        setSelectedAccount?.(resData.data[0]);
+      }
       return resData.data;
     },
-    refetchOnMount: false,
+    refetchOnMount: true,
   });
-
-  const { data: currentAccount } = useQuery({
-    queryKey: ['currentAccount'],
-    queryFn: async () => {
-      if (selectedAccount?.id) {
-        const resData = await accountsService.getAccount(selectedAccount.id);
-        return resData.data;
-      } else {
-        return null;
-      }
-    },
-    refetchOnMount: false,
-  });
-
-  useEffect(() => {
-    console.log('selectedAccount changed', selectedAccount);
-    if (selectedAccount?.id) {
-      queryClient.invalidateQueries({
-        queryKey: ['currentAccount'],
-      });
-    }
-  }, [selectedAccount]);
-
-  const activateAddAccountModal = useAddAccountModalToggle(
-    (state) => state.setTrue
-  );
-
-  const addNewAccount = async () => {
-    activateAddAccountModal();
-  };
 
   return (
     <Group justify="space-between">
@@ -124,7 +113,7 @@ const Header = () => {
                         fw={500}
                         value={account.id}
                         onClick={() => {
-                          setSelectedAccount(account);
+                          onAccountChange(account);
                         }}
                         w="100%"
                       >
@@ -141,27 +130,19 @@ const Header = () => {
                   Edit accounts
                 </Anchor>
               </Group>
-
-              {/* <div className={classes.dropdownFooter}>
-                <Group justify="space-between">
-                  <div>
-                    <Text fw={500} fz="sm">
-                      Get started
-                    </Text>
-                    <Text size="xs" c="dimmed">
-                      Their food sources have decreased, and their numbers
-                    </Text>
-                  </div>
-                  <Button variant="default">Get started</Button>
-                </Group>
-              </div> */}
             </Menu.Dropdown>
           </Menu>
         </Group>
-        <Button>
+        <Button
+          onClick={toggleEditMode}
+          variant={editMode ? 'outline' : 'filled'}
+        >
           <Group>
-            <IconLockAccess size={30} color={theme.colors.gray[0]} />
-            <Text>KIDDY MODE</Text>
+            <IconLockAccess
+              size={30}
+              color={editMode ? theme.colors.red[4] : theme.colors.gray[0]}
+            />
+            <Text>{editMode ? `PARENT EDIT` : `CHILD VIEW`}</Text>
           </Group>
         </Button>
         <Button variant="outline">

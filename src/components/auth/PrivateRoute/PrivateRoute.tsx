@@ -22,14 +22,13 @@ const PrivateRoute = (props: PrivateRouteProps) => {
     queryKey: ['user'],
     queryFn: async () => {
       const response = await userService.getCurrentUser();
-      console.log('response', response);
       return response.data;
     },
+    refetchOnMount: false,
   });
   const navigate = useNavigate();
 
   if (error) {
-    console.log('IN REDIRECT');
     navigate(redirectPath);
   }
 
@@ -37,7 +36,10 @@ const PrivateRoute = (props: PrivateRouteProps) => {
 
   return (
     <>
-      {isLoading || isFetching ? (
+      {isFetching && (
+        <Loader style={{ position: 'absolute', top: '50px', right: '50px' }} />
+      )}
+      {isLoading ? (
         <Center>
           <Loader />
         </Center>

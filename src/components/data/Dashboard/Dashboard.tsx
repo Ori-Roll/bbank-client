@@ -5,10 +5,6 @@ import { useState } from 'react';
 import Navbar from '../Navbar/Navbar';
 import ModalsController from '../Modals/ModalsController';
 
-const MainWrapper: React.FC<React.PropsWithChildren> = ({ children }) => {
-  return <Container>{children}</Container>;
-};
-
 const DashboardLayout = () => {
   const [opened, setOpened] = useState(false);
 
@@ -16,7 +12,6 @@ const DashboardLayout = () => {
 
   return (
     <AppShell
-      padding={30}
       navbar={{
         width: 300,
         breakpoint: 'sm',
@@ -24,18 +19,14 @@ const DashboardLayout = () => {
       }}
     >
       <ModalsController />
-      <AppShell.Navbar hiddenFrom="m">
-        <Navbar />
-      </AppShell.Navbar>
       <AppShell.Header>
-        <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-        <Header />
+        <Burger opened={opened} onClick={toggle} hiddenFrom="m" size="sm" />
       </AppShell.Header>
-
+      <AppShell.Navbar>
+        <Navbar navBarOpened={opened} toggleNavBarOpened={toggle} />
+      </AppShell.Navbar>
       <AppShell.Main>
-        <MainWrapper>
-          <Account />
-        </MainWrapper>
+        <Account />
       </AppShell.Main>
     </AppShell>
   );

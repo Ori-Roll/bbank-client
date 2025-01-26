@@ -1,37 +1,129 @@
-// import { PeriodicData } from '../../../interfaces/interfaces';
-// // import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm } from '@mantine/form';
+import { Button, NumberInput, Select, Space, TextInput } from '@mantine/core';
+import { DatePickerInput } from '@mantine/dates';
+import { IconCalendar } from '@tabler/icons-react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { AccountData, PeriodicData } from '../../../types/schemaTypes';
+import periodicsService from '../../../APIService/periodics';
+import {
+  actionTypeOptions,
+  endDatesDisabled,
+  intervalOptions,
+  minEndDate,
+} from './util';
 
-// type periodicFormProps = {
-//   periodic?: Partial<PeriodicData>;
-//   onSubmit: SubmitHandler<PeriodicData>;
-// };
+type periodicFormProps = {
+  periodic?: Partial<PeriodicData>;
+  onSubmitCallback: (data: Partial<PeriodicData>) => void;
+};
 
-// export const PeriodicForm = (props: periodicFormProps) => {
-//   const { periodic, onSubmit } = props;
+const PeriodicForm = (props: periodicFormProps) => {
+  const { periodic, onSubmitCallback } = props;
 
-//   const { register, handleSubmit, watch } = useForm<PeriodicData>({
-//     defaultValues: periodic,
-//   });
+  const queryClient = useQueryClient();
 
-//   return (
-//     <form onSubmit={handleSubmit(onSubmit)}>
-//       <label>What should this be called?</label>
-//       <input {...register('type')} />
-//       <label>Each</label>
-//       <select {...register('interval')}>
-//         <option value="daily">day</option>
-//         <option value="weekly">week</option>
-//         <option value="yearly">year</option>
-//       </select>
-//       <label>The account will be</label>
-//       <select {...register('action.type')}>
-//         <option value="ADD">Added</option>
-//         <option value="SUBTRACT">Subtracted</option>
-//         <option value="ADDRATE">Be added a rate of</option>
-//       </select>
-//       <input {...register('action.amount')} />
-//       {watch('action.type') === 'ADDRATE' && <span>%</span>}
-//       <input type="submit" />
-//     </form>
-//   );
-// };
+  const { mutateAsync } = useMutation({
+    mutationFn: (periodicData: Partial<PeriodicData>) =>
+      periodicsService.createPeriodic(periodicData),
+    // When mutate is called:
+    onMutate: async (newPeriodic: Partial<PeriodicData>) => {
+      // Cancel any outgoing refetches
+      // (so they don't overwrite our optimistic update)
+      await queryClient.cancelQueries({ queryKey: ['currentAccount'] });
+
+      // Snapshot the previous value
+      const previousAccountData = queryClient.getQueryData(['currentAccount']);
+
+      // Optimistically update to the new value
+      queryClient.setQueryData(
+        ['currentAccount'],
+        (old: Partial<AccountData>) => ({ ...old, newPeriodic })
+      );
+
+      // Return a context object with the snapshotted value
+      return { previousAccountData };
+    },
+    // If the mutation fails,
+    // use the context returned from onMutate to roll back
+    onError: (err, newPeriodicData, context) => {
+      queryClient.setQueryData(
+        ['currentAccount'],
+        context?.previousAccountData
+      );
+    },
+    // Always refetch after error or success:
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['currentAccount'] });
+    },
+  });
+
+  const handleAddPeriodic = async (periodic: Partial<PeriodicData>) => {
+    await mutateAsync(periodic);
+    onSubmitCallback(periodic);
+  };
+
+  const initialValues = {
+    ...(periodic ? periodic : {}),
+    interval: intervalOptions[0].value,
+    actionType: actionTypeOptions[0].value,
+    title: 'Allowance', //TODO: This is now fixed - think what is it for
+    startsAt: new Date(),
+  };
+
+  // TODO: Fix this type
+  const form = useForm<Partial<PeriodicData>>({
+    initialValues,
+  });
+
+  return (
+    <form onSubmit={form.onSubmit(handleAddPeriodic)}>
+      <TextInput
+        label={'Name'}
+        key={form.key('name')}
+        {...form.getInputProps('name')}
+      />
+      <Select
+        label="Each"
+        placeholder="Pick value"
+        data={intervalOptions}
+        defaultValue={intervalOptions[0].value}
+        {...form.getInputProps('interval')}
+      />
+      <Select
+        label="The account will be"
+        placeholder="Pick value"
+        data={actionTypeOptions}
+        defaultValue={actionTypeOptions[0].value}
+        {...form.getInputProps('actionType')}
+      />
+      <NumberInput
+        label={'The amount of'}
+        key={form.key('amount')}
+        {...form.getInputProps('amount')}
+      />
+      <DatePickerInput
+        label={'This will start on '}
+        key={form.key('startsAt')}
+        leftSection={<IconCalendar size={18} stroke={1.5} />}
+        leftSectionPointerEvents="none"
+        minDate={new Date()}
+        {...form.getInputProps('startsAt')}
+      />
+      <DatePickerInput
+        label={'and will end on '}
+        key={form.key('endsAt')}
+        leftSection={<IconCalendar size={18} stroke={1.5} />}
+        leftSectionPointerEvents="none"
+        {...minEndDate(form)}
+        excludeDate={(date: Date) => endDatesDisabled(date, form.getValues())}
+        {...form.getInputProps('endsAt')}
+      />
+      <Space h="20px" />
+      <Button w="100%" type="submit">
+        Add{' '}
+      </Button>
+    </form>
+  );
+};
+
+export default PeriodicForm;

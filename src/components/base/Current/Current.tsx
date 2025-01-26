@@ -1,42 +1,34 @@
-import { Flex, Paper, Text, TextInput } from '@mantine/core';
+import { Center, Flex, Paper, Space, Text, TextInput } from '@mantine/core';
 import style from './Current.module.css';
 
 type CurrentProps<E extends boolean> = {
   current: number;
-  edit?: E;
-  handleChange?: E extends true
+  handleChange: E extends true
     ? (e: React.ChangeEvent<HTMLInputElement>) => void
     : undefined;
+  edit?: E;
 };
 
 const Current = <E extends boolean>(props: CurrentProps<E>) => {
   const { current, edit = false, handleChange } = props;
 
   return (
-    <Paper shadow="sm" radius={40}>
-      <Flex align="start">
-        <Text size="32px" fw={700} mr={5}>
-          You currently have
-        </Text>
-      </Flex>
-      <Flex align="end">
-        <Text size="22px" fw={700} mr={5} className={style.bananamoney}>
-          BANANAMONEY
-        </Text>
-        {edit ? (
-          <TextInput
-            value={current}
-            onChange={handleChange}
-            variant="unstyled"
-            size="90px"
-          />
-        ) : (
-          <Text size="220px" fw={700}>
-            {current}
-          </Text>
-        )}
-      </Flex>
-    </Paper>
+    <Flex>
+      <Text size="60px" pb={2} className={style.currency}>
+        $
+      </Text>
+      <Space w={5} />
+      <TextInput
+        type="number"
+        placeholder={current.toString()}
+        onChange={handleChange}
+        variant="unstyled"
+        size="8rem"
+        readOnly={!edit}
+        className={style.currentInput}
+      />
+      <Text size="20px">.00</Text>
+    </Flex>
   );
 };
 

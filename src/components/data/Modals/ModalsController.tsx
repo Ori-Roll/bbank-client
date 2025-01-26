@@ -1,6 +1,7 @@
 import { Text, Modal } from '@mantine/core';
 import { useAddAccountModalToggle } from '../../../store/useModalActive';
 import AddNewAccountModal from './AddNewAccountModal';
+import PeriodicForm from '../PerriodicForm/PerriodicForm';
 
 type ModalNiceHeaderProps = { title: string };
 
@@ -20,6 +21,8 @@ const ModalNiceHeader: React.FC<ModalNiceHeaderProps> = (props) => {
 };
 
 type ModalsControllerProps = {};
+
+// TODO: This is not a nice implementation, but it works for now - change later
 
 const ModalsController = (props: ModalsControllerProps) => {
   // const isMobile = useMediaQuery('(max-width: 50em)');
@@ -46,9 +49,7 @@ const ModalsController = (props: ModalsControllerProps) => {
   return (
     <Modal
       opened={activeModals}
-      onClose={() => {
-        console.log('CLOSING FROM FORM', deactivateAll());
-      }}
+      onClose={() => {}}
       title={modals.addAccount.title}
       size="md"
       padding="xl"

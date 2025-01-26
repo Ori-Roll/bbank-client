@@ -1,0 +1,22 @@
+import { Text, Title } from '@mantine/core';
+
+type AppLogoProps = {};
+
+const AppLogo = (props: AppLogoProps) => {
+  return (
+    <Title>
+      <Text
+        inherit
+        variant="gradient"
+        gradient={{ from: '#201e61', to: '#3b5096' }}
+        w="100%"
+        ta="center"
+        p="10"
+      >
+        BANANANK
+      </Text>
+    </Title>
+  );
+};
+
+export default AppLogo;

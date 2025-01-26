@@ -2,14 +2,12 @@ import { PropsWithChildren } from 'react';
 import { useEditMode } from '../../../store/useEditMode';
 import { AccountData, PeriodicData } from '../../../types/schemaTypes';
 import { useState } from 'react';
-
 type AccountProps = {
   account: AccountData;
 };
 
 export const Account = (props: AccountProps) => {
   const { account } = props;
-  console.log('props', props);
   return (
     <>
       <div>{`hello ${account.kidName} :)`}</div>

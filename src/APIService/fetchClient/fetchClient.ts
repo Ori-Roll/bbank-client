@@ -46,7 +46,12 @@ export const client = {
       headers: {
         ...defaultHeaders,
       },
-      body: data ? JSON.stringify(data) : undefined,
+      body: data
+        ? JSON.stringify(data, (_, value) => {
+            if (!isNaN(value)) value = Number(value);
+            return value;
+          })
+        : undefined,
     });
     return await handleResponse<T>(response);
   },

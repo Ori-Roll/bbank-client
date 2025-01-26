@@ -1,38 +1,10 @@
+import { useMutation } from '@tanstack/react-query';
 import { useForm, zodResolver } from '@mantine/form';
-import {
-  NumberInput,
-  TextInput,
-  Button,
-  Divider,
-  Space,
-  Loader,
-} from '@mantine/core';
-import { AccountData } from '../../../types/schemaTypes';
-import { nextSunday } from 'date-fns';
+import { NumberInput, TextInput, Button, Space } from '@mantine/core';
 import { z } from 'zod';
-import { useAddAccountModalToggle } from '../../../store/useModalActive';
+import { AccountData } from '../../../types/schemaTypes';
 import queryClient from '../../../config/queryClient';
-import { useMutation, useQuery } from '@tanstack/react-query';
-
-const addUserAccount = async (accountData: Partial<AccountData>) => {
-  const response: Response = await fetch(
-    `http://${import.meta.env.VITE_BASE_API}/api/accounts`,
-    {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': 'http://localhost:5500',
-      },
-      body: JSON.stringify(accountData),
-    }
-  );
-  const data: Promise<{
-    account: AccountData;
-  }> = await response.json();
-  console.log('getUserAccounts got data', data);
-  return data;
-};
+import accountsService from '../../../APIService/accounts';
 
 type AddNewAccountModalProps = {
   onSubmitCallback: () => void;
@@ -73,10 +45,9 @@ const AddNewAccountModal = (props: AddNewAccountModalProps) => {
   });
 
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: (accountData: Partial<AccountData>) => {
-      return addUserAccount(accountData);
-    },
+    mutationFn: accountsService.createAccount,
   });
+
   const onSubmit = async (values: z.infer<typeof schema>) => {
     const accountData: Partial<AccountData> = {
       kidName: values.name,
