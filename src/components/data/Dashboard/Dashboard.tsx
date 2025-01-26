@@ -1,14 +1,17 @@
-import { AppShell, Burger, Container, Modal } from '@mantine/core';
-import Header from '../Header/Header';
+import { AppShell, Burger, em, Flex } from '@mantine/core';
 import { Account } from '../Account/Account';
 import { useState } from 'react';
 import Navbar from '../Navbar/Navbar';
 import ModalsController from '../Modals/ModalsController';
+import { useIsMobile } from '../../../hooks/configHooks.ts';
+import AppLogo from '../../../components/base/AppLogo/AppLogo';
 
 const DashboardLayout = () => {
   const [opened, setOpened] = useState(false);
 
   const toggle = () => setOpened((openedState) => !openedState);
+
+  const isMobile = useIsMobile();
 
   return (
     <AppShell
@@ -19,8 +22,17 @@ const DashboardLayout = () => {
       }}
     >
       <ModalsController />
-      <AppShell.Header>
-        <Burger opened={opened} onClick={toggle} hiddenFrom="m" size="sm" />
+      <AppShell.Header hidden={!isMobile}>
+        <Flex align="center" justify="space-between">
+          <Burger
+            opened={opened}
+            onClick={toggle}
+            hiddenFrom="m"
+            size="md"
+            p={10}
+          />
+          <AppLogo />
+        </Flex>
       </AppShell.Header>
       <AppShell.Navbar>
         <Navbar navBarOpened={opened} toggleNavBarOpened={toggle} />
