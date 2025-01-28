@@ -1,3 +1,5 @@
+import { PartialBy } from './utils';
+
 export enum Interval {
   DAY = 'DAY',
   WEEK = 'WEEK',
@@ -16,6 +18,7 @@ export enum TransactionReason {
   PERIODIC = 'PERIODIC',
   MANUAL = 'MANUAL',
   PAYMENT = 'PAYMENT',
+  CHORE = 'CHORE',
   TASK = 'TASK',
 }
 
@@ -59,5 +62,40 @@ export type TransactionData = {
   reason: TransactionReason;
   amount: number;
   executedAt: string;
+  viewed: boolean;
+  periodic: PeriodicData;
   periodicId?: string;
+  account: AccountData;
+  accountId: string;
 };
+
+export type TaskData = {
+  id: string;
+  title: string;
+  description?: string;
+  availableAt: string | Date;
+  expiresAt?: string | Date;
+  completed: boolean;
+  completedAt: string | Date;
+  amount: number;
+  requiredTimes?: number;
+  accomplishedTimes?: number;
+  periodic?: PeriodicData;
+  periodicId?: string;
+  account: AccountData;
+  accountId: string;
+};
+
+export type CreateTaskData = PartialBy<
+  Omit<
+    TaskData,
+    | 'id'
+    | 'account'
+    | 'periodicId'
+    | 'requiredTimes'
+    | 'accomplishedTimes'
+    | 'completed'
+    | 'completedAt'
+  >,
+  'availableAt'
+>;
