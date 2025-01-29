@@ -1,12 +1,12 @@
 import { PropsWithChildren, useState } from 'react';
+import { Button, Container } from '@mantine/core';
+import { Carousel } from '@mantine/carousel';
 import { useEditMode } from '../../../store/useEditMode';
 import { AccountData } from '../../../types/schemaTypes';
 import PeriodicForm from '../PerriodicForm/PerriodicForm';
 import ModalsWrapper from '../Modals/ModalWrapper';
 import PeriodicCard from '../../../components/base/PeriodicCard/PeriodicCard';
-import { Carousel } from '@mantine/carousel';
 import style from './PeriodicsSection.module.css';
-import { Button, Container, ContainerProps, em } from '@mantine/core';
 import { useIsMobile } from '../../../hooks/configHooks.ts';
 
 type PeriodicsSectionProps = {

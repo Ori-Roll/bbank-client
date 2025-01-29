@@ -29,9 +29,9 @@ const AddTask = (props: AddTaskProps) => {
         {selectedAccount && <TaskForm selectedAccount={selectedAccount} />}
       </ModalsWrapper>
 
-      <Button size="lg" onClick={toggleModalOpened} variant="outline" w="100%">
-        <IconVacuumCleaner size="1.5rem" color={theme.colors.red[4]} />
-        <Text>{`Add Bonus task`}</Text>
+      <Button size="lg" onClick={toggleModalOpened} variant="light" w="100%">
+        <IconVacuumCleaner size="1.5rem" color={theme.colors.gray[2]} />
+        <Text c={theme.colors.dark[4]}>{`Add Bonus task`}</Text>
       </Button>
     </>
   );

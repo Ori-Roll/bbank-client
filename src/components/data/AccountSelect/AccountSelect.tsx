@@ -64,7 +64,7 @@ const AccountSelect = (props: AccountSelectProps) => {
         <Button
           w="100%"
           rightSection={<IconChevronDown size={18} stroke={1.5} />}
-          variant="outline"
+          variant="light"
         >
           <Center inline>
             <Box component="span" mr={5}>
