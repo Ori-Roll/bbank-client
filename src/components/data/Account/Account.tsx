@@ -7,6 +7,7 @@ import { useSelectedAccount } from '../../../store/useCurrentAccount';
 import accountsService from '../../../APIService/accounts';
 import OopsPage from '../../../components/base/OopsPage/Oops';
 import { useIsMobile } from '../../../hooks/configHooks.ts';
+import TaskSection from '../TaskSection/TaskSection.tsx';
 
 type AccountProps = {};
 
@@ -37,6 +38,7 @@ export const Account = (props: AccountProps) => {
         <>
           <CurrentSection account={account} />
           <PeriodicsSection account={account} />
+          <TaskSection account={account} />
         </>
       ) : (
         <OopsPage />
