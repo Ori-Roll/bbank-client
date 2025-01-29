@@ -8,14 +8,15 @@ import ModalsController from '../Modals/ModalsController';
 import AppLogo from '../../../components/base/AppLogo/AppLogo';
 
 const DashboardLayout = () => {
+  // TODO: put this in store and make the burger work from wherever with a new component
   const [opened, setOpened] = useState(false);
 
   const toggle = () => setOpened((openedState) => !openedState);
 
   const isMobile = useIsMobile();
-  const pinned = useHeadroom({ fixedAt: 2 });
+  const pinned = useHeadroom({ fixedAt: 100 });
 
-  const headerProps = {
+  const headerStyle = {
     transform: `translate3d(0, ${pinned ? 0 : '-110px'}, 0)`,
     transition: 'transform 400ms ease',
   };
@@ -30,7 +31,7 @@ const DashboardLayout = () => {
       }}
     >
       <ModalsController />
-      <AppShell.Header hidden={!isMobile} style={headerProps}>
+      <AppShell.Header hidden={!isMobile} style={headerStyle}>
         <Flex align="center" justify="space-between">
           <Burger
             opened={opened}
