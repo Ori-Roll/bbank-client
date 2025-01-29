@@ -52,7 +52,7 @@ const Navbar = (props: NavbarProps) => {
           justify="flex-start"
           align="center"
           w="100%"
-          gap={20}
+          gap={10}
         >
           <AccountSelect />
           {editMode && (

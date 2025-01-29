@@ -1,9 +1,10 @@
-import { AppShell, Burger, em, Flex } from '@mantine/core';
-import { Account } from '../Account/Account';
 import { useState } from 'react';
+import { AppShell, Burger, Flex } from '@mantine/core';
+import { useHeadroom } from '@mantine/hooks';
+import { Account } from '../Account/Account';
+import { useIsMobile } from '../../../hooks/configHooks.ts';
 import Navbar from '../Navbar/Navbar';
 import ModalsController from '../Modals/ModalsController';
-import { useIsMobile } from '../../../hooks/configHooks.ts';
 import AppLogo from '../../../components/base/AppLogo/AppLogo';
 
 const DashboardLayout = () => {
@@ -12,9 +13,16 @@ const DashboardLayout = () => {
   const toggle = () => setOpened((openedState) => !openedState);
 
   const isMobile = useIsMobile();
+  const pinned = useHeadroom({ fixedAt: 2 });
+
+  const headerProps = {
+    transform: `translate3d(0, ${pinned ? 0 : '-110px'}, 0)`,
+    transition: 'transform 400ms ease',
+  };
 
   return (
     <AppShell
+      header={{ height: 60 }}
       navbar={{
         width: 300,
         breakpoint: 'sm',
@@ -22,7 +30,7 @@ const DashboardLayout = () => {
       }}
     >
       <ModalsController />
-      <AppShell.Header hidden={!isMobile}>
+      <AppShell.Header hidden={!isMobile} style={headerProps}>
         <Flex align="center" justify="space-between">
           <Burger
             opened={opened}
