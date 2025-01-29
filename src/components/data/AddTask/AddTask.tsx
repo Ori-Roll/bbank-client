@@ -3,21 +3,26 @@ import { Button, Text, useMantineTheme } from '@mantine/core';
 import { IconVacuumCleaner } from '@tabler/icons-react';
 import ModalsWrapper from '../Modals/ModalWrapper';
 import TaskForm from '../TaskForm/TaskForm';
-import { useSelectedAccount } from '../../../store/useCurrentAccount';
+import { CreateTaskData, ShallowAccountData } from '../../../types/schemaTypes';
 
-type AddTaskProps = {};
+type AddTaskProps = {
+  selectedAccount?: ShallowAccountData | null;
+};
 
 const AddTask = (props: AddTaskProps) => {
-  const {} = props;
+  const { selectedAccount } = props;
 
   const [modalOpened, setModalOpened] = useState(false);
+
+  const theme = useMantineTheme();
 
   const toggleModalOpened = () => {
     setModalOpened((prev) => !prev);
   };
 
-  const theme = useMantineTheme();
-  const selectedAccount = useSelectedAccount((state) => state?.selectedAccount);
+  const handleAddTaskSubmit = (data: CreateTaskData) => {
+    setModalOpened(false);
+  };
 
   return (
     <>
@@ -26,7 +31,12 @@ const AddTask = (props: AddTaskProps) => {
         opened={modalOpened}
         onClose={toggleModalOpened}
       >
-        {selectedAccount && <TaskForm selectedAccount={selectedAccount} />}
+        {selectedAccount && (
+          <TaskForm
+            selectedAccount={selectedAccount}
+            onSubmitCallback={handleAddTaskSubmit}
+          />
+        )}
       </ModalsWrapper>
 
       <Button
@@ -39,6 +49,7 @@ const AddTask = (props: AddTaskProps) => {
         rightSection={
           <IconVacuumCleaner size="1.5rem" color={theme.colors.gray[2]} />
         }
+        disabled={!selectedAccount}
       >
         <Text c={theme.colors.dark[5]}>{`Add Bonus task`}</Text>
       </Button>

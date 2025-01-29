@@ -11,7 +11,7 @@ import tasksService from '../../../APIService/tasks';
 
 type periodicFormProps = {
   task?: Partial<TaskData>;
-  onSubmitCallback?: (data: Partial<TaskData>) => void;
+  onSubmitCallback?: (data: CreateTaskData) => void;
   selectedAccount: null | ShallowAccountData;
 };
 
@@ -21,9 +21,8 @@ const PeriodicForm = (props: periodicFormProps) => {
   const queryClient = useQueryClient();
 
   const { mutateAsync } = useMutation({
-    mutationFn: (taskData: Partial<TaskData>) =>
-      tasksService.createTask(taskData),
-    onMutate: async (newTask: Partial<TaskData>) => {
+    mutationFn: (taskData: CreateTaskData) => tasksService.createTask(taskData),
+    onMutate: async (newTask: CreateTaskData) => {
       await queryClient.cancelQueries({ queryKey: ['currentAccount'] });
       const previousAccountData = queryClient.getQueryData(['currentAccount']);
       queryClient.setQueryData(
@@ -44,19 +43,19 @@ const PeriodicForm = (props: periodicFormProps) => {
     },
   });
 
-  const handleAddPeriodic = async (task: Partial<TaskData>) => {
+  const handleAddPeriodic = async (task: CreateTaskData) => {
     await mutateAsync(task);
     onSubmitCallback?.(task);
   };
 
   const initialValues: CreateTaskData | null = selectedAccount?.id
     ? {
+        ...(task ? task : {}),
         title: '',
         amount: 0,
         accountId: selectedAccount?.id,
         availableAt: new Date(),
         requiredTimes: 1,
-        ...(task ? task : {}),
       }
     : null;
 
