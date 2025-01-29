@@ -1,30 +1,22 @@
 import { useForm } from '@mantine/form';
-import { Button, NumberInput, Select, Space, TextInput } from '@mantine/core';
-import { DatePickerInput } from '@mantine/dates';
-import { IconCalendar } from '@tabler/icons-react';
+import { Button, NumberInput, Space, TextInput } from '@mantine/core';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   AccountData,
+  ShallowAccountData,
   CreateTaskData,
   TaskData,
 } from '../../../types/schemaTypes';
 import tasksService from '../../../APIService/tasks';
-import { useSelectedAccount } from '../../../store/useCurrentAccount';
-
-// import {
-//   actionTypeOptions,
-//   endDatesDisabled,
-//   intervalOptions,
-//   minEndDate,
-// } from './util';
 
 type periodicFormProps = {
   task?: Partial<TaskData>;
   onSubmitCallback?: (data: Partial<TaskData>) => void;
+  selectedAccount?: null | ShallowAccountData;
 };
 
 const PeriodicForm = (props: periodicFormProps) => {
-  const { task, onSubmitCallback } = props;
+  const { task, onSubmitCallback, selectedAccount } = props;
 
   const queryClient = useQueryClient();
 
@@ -51,8 +43,6 @@ const PeriodicForm = (props: periodicFormProps) => {
       queryClient.invalidateQueries({ queryKey: ['currentAccount'] });
     },
   });
-
-  const selectedAccount = useSelectedAccount((state) => state?.selectedAccount);
 
   const handleAddPeriodic = async (task: Partial<TaskData>) => {
     await mutateAsync(task);

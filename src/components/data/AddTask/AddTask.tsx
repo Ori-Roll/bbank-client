@@ -1,8 +1,9 @@
+import { useState } from 'react';
 import { Button, Text, useMantineTheme } from '@mantine/core';
 import { IconVacuumCleaner } from '@tabler/icons-react';
-import { useState } from 'react';
 import ModalsWrapper from '../Modals/ModalWrapper';
 import TaskForm from '../TaskForm/TaskForm';
+import { useSelectedAccount } from '../../../store/useCurrentAccount';
 
 type AddTaskProps = {};
 
@@ -16,6 +17,7 @@ const AddTask = (props: AddTaskProps) => {
   };
 
   const theme = useMantineTheme();
+  const selectedAccount = useSelectedAccount((state) => state?.selectedAccount);
 
   return (
     <>
@@ -24,7 +26,7 @@ const AddTask = (props: AddTaskProps) => {
         opened={modalOpened}
         onClose={toggleModalOpened}
       >
-        <TaskForm />
+        <TaskForm selectedAccount={selectedAccount} />
       </ModalsWrapper>
 
       <Button size="lg" onClick={toggleModalOpened} variant="outline" w="100%">
