@@ -50,12 +50,12 @@ const Navbar = (props: NavbarProps) => {
           direction="column"
           justify="flex-start"
           align="center"
-          px={5}
           w="100%"
+          gap={20}
         >
+          <AccountSelect />
           {editMode && (
             <>
-              <AccountSelect />
               <AddTask />
             </>
           )}

@@ -1,12 +1,12 @@
 import {
   Button,
   Anchor,
-  Box,
   Center,
   Group,
   Text,
   Menu,
   Loader,
+  useMantineTheme,
 } from '@mantine/core';
 import { useQuery } from '@tanstack/react-query';
 import { AccountData } from '../../../types/schemaTypes';
@@ -15,11 +15,14 @@ import accountsService from '../../../APIService/accounts';
 import { useSelectedAccount } from '../../../store/useCurrentAccount';
 
 import { IconChevronDown, IconPlus } from '@tabler/icons-react';
+import { useEditMode } from '../../../store/useEditMode';
 
 type AccountSelectProps = {};
 
 const AccountSelect = (props: AccountSelectProps) => {
   const selectedAccount = useSelectedAccount((state) => state?.selectedAccount);
+  const theme = useMantineTheme();
+  const editMode = useEditMode((state) => state.edit);
 
   const setSelectedAccount = useSelectedAccount(
     (state) => state?.setSelectedAccount
@@ -62,15 +65,15 @@ const AccountSelect = (props: AccountSelectProps) => {
     >
       <Menu.Target>
         <Button
+          variant="transparent"
+          color={theme.colors.dark[5]}
           w="100%"
+          justify="space-between"
+          bd={`1px solid ${theme.colors.dark[5]}`}
           rightSection={<IconChevronDown size={18} stroke={1.5} />}
-          variant="light"
+          disabled={!editMode}
         >
-          <Center inline>
-            <Box component="span" mr={5}>
-              {selectedAccount?.kidName || 'Select account'}
-            </Box>
-          </Center>
+          {selectedAccount?.kidName || 'Select account'}
         </Button>
       </Menu.Target>
 
