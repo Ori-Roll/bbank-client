@@ -13,7 +13,7 @@ type AccountProps = {};
 
 export const Account = (props: AccountProps) => {
   const selectedAccount = useSelectedAccount((state) => state?.selectedAccount);
-  const isMobile = useIsMobile();
+
   const {
     data: account,
     isLoading: accountLoading,
@@ -29,7 +29,7 @@ export const Account = (props: AccountProps) => {
     enabled: !!selectedAccount?.id,
     refetchOnMount: false,
   });
-  console.log('isMobile', isMobile);
+
   return accountLoading ? (
     <Loader size={30} />
   ) : (

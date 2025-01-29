@@ -3,6 +3,7 @@ import style from './Current.module.css';
 
 type CurrentProps<E extends boolean> = {
   current: number;
+  sign: string;
   handleChange: E extends true
     ? (e: React.ChangeEvent<HTMLInputElement>) => void
     : undefined;
@@ -10,12 +11,12 @@ type CurrentProps<E extends boolean> = {
 };
 
 const Current = <E extends boolean>(props: CurrentProps<E>) => {
-  const { current, edit = false, handleChange } = props;
+  const { current, sign, edit = false, handleChange } = props;
 
   return (
     <Flex>
       <Text size="60px" pb={2} className={style.currency}>
-        $
+        {sign}
       </Text>
       <Space w={5} />
       <TextInput

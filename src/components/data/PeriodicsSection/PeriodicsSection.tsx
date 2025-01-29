@@ -41,7 +41,7 @@ const PeriodicsSection = (props: PeriodicsSectionProps) => {
         withIndicators: periodics.length > 3,
         withControls: periodics.length > 3,
       };
-  console.log('carouselMobileProps', carouselMobileProps);
+
   return (
     <Container
       style={{

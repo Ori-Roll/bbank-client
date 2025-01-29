@@ -56,13 +56,20 @@ export const CurrentSection = (props: CurrentSectionProps) => {
     mutateAsync({ current: Number(e.target.value) });
   };
 
+  // TODO: This sign is hardcoded to '$' for now
+
   return (
-    <Flex className={style.currentSection}>
-      <Current
-        current={account.current}
-        handleChange={handleCurrentChange}
-        edit={editMode}
-      />
+    <Flex direction="column" align="center" className={style.currentSection}>
+      <Text size="xl">You have</Text>
+
+      <Flex>
+        <Current
+          current={account.current}
+          sign={'$'}
+          handleChange={handleCurrentChange}
+          edit={editMode}
+        />
+      </Flex>
     </Flex>
   );
 };
