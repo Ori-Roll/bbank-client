@@ -4,6 +4,7 @@ import style from './PeriodicCard.module.css';
 import AnimatedShake from '../Animated/AnimatedShake';
 import { Carousel } from '@mantine/carousel';
 import { PropsWithChildren } from 'react';
+import AmountWithSign from '../AmountWithSign/AmountWithSign';
 
 type PeriodicCardProps = {
   name: string;
@@ -19,14 +20,6 @@ type PeriodicCardProps = {
 const PeriodicCard = (props: PropsWithChildren<PeriodicCardProps>) => {
   const { name, amount, actionSign, intervalName, nextOccurrence, imageUrl } =
     props;
-
-  // Format the amount (with sign)
-  const formattedAmount = (
-    <Flex align="center">
-      <Text className={style.formattedAmountSign}>{actionSign}</Text>
-      <Text className={style.formattedAmountNum}>{amount}</Text>
-    </Flex>
-  );
 
   const parsedNextOccurrence = nextOccurrence ? new Date(nextOccurrence) : null;
 
@@ -50,20 +43,10 @@ const PeriodicCard = (props: PropsWithChildren<PeriodicCardProps>) => {
 
   return (
     <Carousel.Slide className={style.cardWrapper}>
-      {/* <Grid.Col
-          span={6}
-          style={{ display: 'flex', justifyContent: 'center' }}
-          >
-          <Image
-          src={imageUrl}
-            alt="Card image"
-            radius="md"
-            style={{ objectFit: 'cover', height: '100%', width: '100%' }}
-          />
-        </Grid.Col> */}
-
       <Flex align={'center'} justify={'center'} h={200} gap="md">
-        <AnimatedShake delay={delay}>{formattedAmount}</AnimatedShake>
+        <AnimatedShake delay={delay}>
+          {<AmountWithSign amount={amount} actionSign={actionSign} />}
+        </AnimatedShake>
         <Flex direction="column" gap="xs">
           <Text className={style.nameWrapper}>
             <Text className={style.name}>{name}</Text>
