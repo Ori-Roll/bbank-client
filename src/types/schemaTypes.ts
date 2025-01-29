@@ -93,7 +93,6 @@ export type CreateTaskData = PartialBy<
     | 'id'
     | 'account'
     | 'periodicId'
-    | 'requiredTimes'
     | 'accomplishedTimes'
     | 'completed'
     | 'completedAt'
