@@ -12,7 +12,7 @@ import tasksService from '../../../APIService/tasks';
 type periodicFormProps = {
   task?: Partial<TaskData>;
   onSubmitCallback?: (data: Partial<TaskData>) => void;
-  selectedAccount?: null | ShallowAccountData;
+  selectedAccount: null | ShallowAccountData;
 };
 
 const PeriodicForm = (props: periodicFormProps) => {

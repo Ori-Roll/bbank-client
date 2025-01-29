@@ -26,7 +26,7 @@ const AddTask = (props: AddTaskProps) => {
         opened={modalOpened}
         onClose={toggleModalOpened}
       >
-        <TaskForm selectedAccount={selectedAccount} />
+        {selectedAccount && <TaskForm selectedAccount={selectedAccount} />}
       </ModalsWrapper>
 
       <Button size="lg" onClick={toggleModalOpened} variant="outline" w="100%">
