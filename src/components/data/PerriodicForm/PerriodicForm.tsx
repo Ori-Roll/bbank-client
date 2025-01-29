@@ -3,7 +3,11 @@ import { Button, NumberInput, Select, Space, TextInput } from '@mantine/core';
 import { DatePickerInput } from '@mantine/dates';
 import { IconCalendar } from '@tabler/icons-react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { AccountData, PeriodicData } from '../../../types/schemaTypes';
+import {
+  AccountData,
+  PeriodicData,
+  ShallowAccountData,
+} from '../../../types/schemaTypes';
 import periodicsService from '../../../APIService/periodics';
 import {
   actionTypeOptions,
@@ -14,11 +18,12 @@ import {
 
 type periodicFormProps = {
   periodic?: Partial<PeriodicData>;
+  selectedAccount: ShallowAccountData;
   onSubmitCallback: (data: Partial<PeriodicData>) => void;
 };
 
 const PeriodicForm = (props: periodicFormProps) => {
-  const { periodic, onSubmitCallback } = props;
+  const { periodic, onSubmitCallback, selectedAccount } = props;
 
   const queryClient = useQueryClient();
 
@@ -64,6 +69,7 @@ const PeriodicForm = (props: periodicFormProps) => {
 
   const initialValues = {
     ...(periodic ? periodic : {}),
+    accountId: selectedAccount.id,
     interval: intervalOptions[0].value,
     actionType: actionTypeOptions[0].value,
     title: 'Allowance', //TODO: This is now fixed - think what is it for

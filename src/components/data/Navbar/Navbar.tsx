@@ -1,11 +1,11 @@
 import { Button, Text, useMantineTheme, Flex, Burger } from '@mantine/core';
-
 import { IconLock } from '@tabler/icons-react';
-
 import { useEditMode } from '../../../store/useEditMode.ts';
-import AccountSelect from '../AccountSelect/AccountSelect.tsx';
 import { useIsMobile } from '../../../hooks/configHooks.ts';
+import { useSelectedAccount } from '../../../store/useCurrentAccount.ts';
+import AccountSelect from '../AccountSelect/AccountSelect.tsx';
 import AddTask from '../AddTask/AddTask.tsx';
+import AddPeriodic from '../AddPeriodic/AddPeriodic.tsx';
 
 type NavbarProps = {
   navBarOpened: boolean;
@@ -20,6 +20,7 @@ const Navbar = (props: NavbarProps) => {
   const editMode = useEditMode((state) => state.edit);
   const toggleEditMode = useEditMode((state) => state.toggle);
   const isMobile = useIsMobile();
+  const selectedAccount = useSelectedAccount((state) => state?.selectedAccount);
 
   return (
     <Flex
@@ -56,7 +57,8 @@ const Navbar = (props: NavbarProps) => {
           <AccountSelect />
           {editMode && (
             <>
-              <AddTask />
+              <AddTask selectedAccount={selectedAccount} />
+              <AddPeriodic selectedAccount={selectedAccount} />
             </>
           )}
         </Flex>
