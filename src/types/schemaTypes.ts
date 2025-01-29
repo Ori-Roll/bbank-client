@@ -42,6 +42,7 @@ export type AccountData = {
   kidName: string;
   current: number;
   periodics: PeriodicData[];
+  tasks: TaskData[];
 };
 
 export type ShallowAccountData = Pick<
