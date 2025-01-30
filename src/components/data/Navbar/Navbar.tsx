@@ -1,11 +1,11 @@
-import { Button, Text, useMantineTheme, Flex, Burger } from '@mantine/core';
-import { IconLock } from '@tabler/icons-react';
+import { Flex, Burger } from '@mantine/core';
 import { useEditMode } from '../../../store/useEditMode.ts';
 import { useIsMobile } from '../../../hooks/configHooks.ts';
 import { useSelectedAccount } from '../../../store/useCurrentAccount.ts';
 import AccountSelect from '../AccountSelect/AccountSelect.tsx';
 import AddTask from '../AddTask/AddTask.tsx';
 import AddPeriodic from '../AddPeriodic/AddPeriodic.tsx';
+import LockWithPin from '../../../components/base/LockWithPin/LockWithPin.tsx';
 
 type NavbarProps = {
   navBarOpened: boolean;
@@ -15,10 +15,7 @@ type NavbarProps = {
 const Navbar = (props: NavbarProps) => {
   const { navBarOpened, toggleNavBarOpened } = props;
 
-  const theme = useMantineTheme();
-
   const editMode = useEditMode((state) => state.edit);
-  const toggleEditMode = useEditMode((state) => state.toggle);
   const isMobile = useIsMobile();
   const selectedAccount = useSelectedAccount((state) => state?.selectedAccount);
 
@@ -67,22 +64,10 @@ const Navbar = (props: NavbarProps) => {
           justify="center"
           align="center"
           h={editMode ? 'auto' : '100%'}
-        ></Flex>
+        >
+          <LockWithPin />
+        </Flex>
       </Flex>
-      <Button
-        size="6rem"
-        radius="6rem"
-        h="5rem"
-        p="1.2rem"
-        onClick={toggleEditMode}
-        variant="outline"
-      >
-        <IconLock
-          size="2.5rem"
-          color={editMode ? theme.colors.red[4] : theme.colors.blue[7]}
-        />
-        <Text>{editMode ? `LOCK` : ``}</Text>
-      </Button>
     </Flex>
   );
 };
