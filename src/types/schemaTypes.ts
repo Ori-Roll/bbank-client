@@ -55,6 +55,7 @@ export type UserData = {
   email: string;
   name?: string;
   accounts: AccountData[];
+  parentLock?: ParentLockData;
 };
 
 export type TransactionData = {
@@ -99,3 +100,13 @@ export type CreateTaskData = PartialBy<
   >,
   'availableAt'
 >;
+
+export type ParentLockData = {
+  id: string;
+  userId: string;
+  pin: string;
+  question?: string;
+  answer?: string;
+};
+
+export type CreateParentLockData = Omit<ParentLockData, 'id' | 'userId'>;
