@@ -1,15 +1,12 @@
-import {
-  Button,
-  Text,
-  useMantineTheme,
-  PinInput,
-  Center,
-  Flex,
-} from '@mantine/core';
+import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { Button, Text, useMantineTheme } from '@mantine/core';
 import { IconLock } from '@tabler/icons-react';
 import { useEditMode } from '../../../store/useEditMode';
 import ModalsWrapper from '../../../components/data/Modals/ModalWrapper';
-import { useState } from 'react';
+import { UserData } from '@/types/schemaTypes';
+import PinCodeValidate from './PinCodeValidate';
+import PinCodeCreate from './PinCodeCreate';
 
 type LockWithPinProps = {};
 
@@ -20,46 +17,60 @@ const LockWithPin = (props: LockWithPinProps) => {
     setModalOpened((prev) => !prev);
   };
 
-  const toggleEditMode = useEditMode((state) => state.toggle);
-
-  const theme = useMantineTheme();
+  const setEditMode = useEditMode((state) => state.setTrue);
+  const setViewMode = useEditMode((state) => state.setFalse);
   const editMode = useEditMode((state) => state.edit);
+  const theme = useMantineTheme();
 
-  const handlePinComplete = (pin: string) => {
-    console.log(pin);
+  const { data: user } = useQuery<UserData>({
+    queryKey: ['user'],
+    refetchOnMount: false,
+    enabled: false,
+  });
+
+  const lockEditMode = () => {
+    setViewMode();
+  };
+
+  const handleUnlockEditMode = () => {
     toggleModalOpened();
   };
+
+  const handleValidated = () => {
+    setEditMode();
+    toggleModalOpened();
+  };
+
+  console.log('user', user);
 
   return (
     <>
       <ModalsWrapper
-        title="Enter Pin"
+        title="LOCK APP"
         opened={modalOpened}
         onClose={toggleModalOpened}
       >
-        <Center>
-          <Flex direction="row" justify="center" align="center" gap={30}>
-            <PinInput
-              size="md"
-              inputMode="numeric"
-              onComplete={handlePinComplete}
-            />
-          </Flex>
-        </Center>
+        {user?.parentLock?.pin ? (
+          <PinCodeValidate onValidated={handleValidated} />
+        ) : (
+          <PinCodeCreate onCreated={handleValidated} />
+        )}
       </ModalsWrapper>
       <Button
         size="6rem"
         radius="6rem"
         h="5rem"
         p="1.2rem"
-        onClick={toggleModalOpened}
+        onClick={editMode ? lockEditMode : handleUnlockEditMode}
         variant="outline"
       >
-        <IconLock
-          size="2.5rem"
-          color={editMode ? theme.colors.red[4] : theme.colors.blue[7]}
-        />
-        <Text>{editMode ? `LOCK` : ``}</Text>
+        <>
+          <IconLock
+            size="2.5rem"
+            color={editMode ? theme.colors.red[4] : theme.colors.blue[7]}
+          />
+          <Text>{editMode ? `LOCK` : ``}</Text>
+        </>
       </Button>
     </>
   );
