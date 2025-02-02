@@ -6,12 +6,7 @@ const ModalNiceHeader: React.FC<ModalNiceHeaderProps> = (props) => {
   const { title } = props;
 
   return (
-    <Text
-      size="xl"
-      fw={700}
-      variant="gradient"
-      gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
-    >
+    <Text size="md" fw={700} variant="text">
       {title}
     </Text>
   );
@@ -29,11 +24,7 @@ const ModalsWrapper = (props: ModalsWrapperProps) => {
 
   return (
     <Modal
-      size="md"
-      padding="xl"
-      shadow="md"
       centered={true}
-      radius="xl"
       title={title && <ModalNiceHeader title={title} />}
       opened={opened}
       onClose={onClose}

@@ -5,6 +5,9 @@ import { MantineThemeOverride } from '@mantine/core';
 export const mantineTheme: MantineThemeOverride = createTheme({
   /** Put your mantine theme override here */
   defaultRadius: 'xs',
+  lineHeights: {
+    md: 2,
+  },
   components: {
     Input: {
       defaultProps: {
