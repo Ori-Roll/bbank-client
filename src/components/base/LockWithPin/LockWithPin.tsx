@@ -41,8 +41,6 @@ const LockWithPin = (props: LockWithPinProps) => {
     toggleModalOpened();
   };
 
-  console.log('user', user);
-
   return (
     <>
       <ModalsWrapper
