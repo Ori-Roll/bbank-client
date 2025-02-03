@@ -5,6 +5,7 @@ import { userService } from '../../../APIService/users';
 import OopsPage from '../../../components/base/OopsPage/Oops';
 import { selectCurrentAccount } from '../../../utils/generalDataUtils';
 import { useSelectedAccount } from '../../../store/useCurrentAccount';
+import { AccountData, UserData } from '../../../types/schemaTypes';
 
 type PrivateRouteProps = {
   component: React.ComponentType;
@@ -20,12 +21,14 @@ const PrivateRoute = (props: PrivateRouteProps) => {
     (state) => state?.setSelectedAccount
   );
 
-  const updateCurrentAccountData = (data: any) => {
+  const updateCurrentAccountData = (data: UserData) => {
+    data.accounts.forEach((account: AccountData) => {
+      queryClient.setQueryData(['currentAccount', account.id], account);
+    });
+
     const currentAccount = selectCurrentAccount(data, data.accounts);
-    console.log('1. currentAccount: ', currentAccount);
     if (currentAccount) {
       setSelectedAccount?.(currentAccount);
-      queryClient.setQueryData(['currentAccount'], currentAccount);
     }
   };
 
