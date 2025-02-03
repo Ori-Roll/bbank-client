@@ -5,22 +5,26 @@
   font-style: normal;
 }
 
-.currentInput {
-  /* white-space: pre; */
-  width: auto;
-  min-width: 4ch; /* Set a minimum width for smaller inputs */
-  max-width: 100%;
+.current {
+  margin-block-start: auto;
+  font-family: 'Titan One', serif;
+  font-weight: 100;
+  font-style: normal;
+  font-size: 5rem;
 }
 
-.currentInput ::placeholder {
+/* .currentInput {
+  width: auto;
+  min-width: 4ch; 
+  max-width: 100%;
+} */
+
+/* .currentInput ::placeholder {
   font-family: 'Titan One', serif;
   font-weight: 100;
   font-style: normal;
   color: #000000;
-  /* box-shadow: -11px -12px 0px 4px rgba(255, 0, 0, 0.53),
-    2px 13px 0px 4px rgba(0, 53, 255, 0.53),
-    12px 2px 0px 4px rgba(28, 255, 0, 0.53); */
-}
+} */
 
 /* .currentInput :hover {
   animation: glow 3s alternate infinite;
@@ -42,7 +46,7 @@
   }
 } */
 
-.currentInput :disabled {
+/* .currentInput :disabled {
   margin-block-start: auto;
   background-color: transparent;
   color: inherit;
@@ -50,4 +54,4 @@
   cursor: text;
   pointer-events: none;
   animation: glow 0.5s infinite alternate;
-}
+} */

@@ -14,20 +14,14 @@ const Current = <E extends boolean>(props: CurrentProps<E>) => {
   const { current, sign, edit = false, handleChange } = props;
 
   return (
-    <Flex>
-      <Text size="60px" pb={2} className={style.currency}>
+    <Flex align={'end'}>
+      <Text pb={2} className={style.currency}>
         {sign}
       </Text>
       <Space w={5} />
-      <TextInput
-        type="number"
-        placeholder={current.toString()}
-        onChange={handleChange}
-        variant="unstyled"
-        size="8rem"
-        readOnly={!edit}
-        className={style.currentInput}
-      />
+      <Text onChange={handleChange} className={style.current}>
+        {current}
+      </Text>
       <Text size="20px">.00</Text>
     </Flex>
   );

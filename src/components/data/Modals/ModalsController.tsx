@@ -48,11 +48,7 @@ const ModalsController = (props: ModalsControllerProps) => {
       opened={activeModals}
       onClose={() => {}}
       title={modals.addAccount.title}
-      size="md"
-      padding="xl"
-      shadow="md"
       centered={true}
-      radius="xl"
     >
       {Object.values(modals).map((modal) =>
         modal.active ? (

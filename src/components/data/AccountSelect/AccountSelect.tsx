@@ -61,7 +61,6 @@ const AccountSelect = (props: AccountSelectProps) => {
       transitionProps={{ transition: 'pop-top-right' }}
       position="top-start"
       withinPortal
-      width="100%"
     >
       <Menu.Target>
         <Button
@@ -77,8 +76,8 @@ const AccountSelect = (props: AccountSelectProps) => {
         </Button>
       </Menu.Target>
 
-      <Menu.Dropdown style={{ overflow: 'hidden' }}>
-        <Group justify="space-between" px="md">
+      <Menu.Dropdown>
+        <Group>
           {accountsLoading ? (
             <Center w="100%" h={70}>
               <Loader />
@@ -86,19 +85,17 @@ const AccountSelect = (props: AccountSelectProps) => {
           ) : (
             accounts &&
             accounts.map((account) => (
-              <Group key={account.id} justify="flex-start" px="md">
-                <Menu.Item
-                  variant="transparent"
-                  fw={500}
-                  value={account.id}
-                  onClick={() => {
-                    onAccountChange(account);
-                  }}
-                  w="100%"
-                >
-                  <Text w="100%">{account.kidName}</Text>
-                </Menu.Item>
-              </Group>
+              <Menu.Item
+                key={account.id}
+                variant="transparent"
+                fw={500}
+                value={account.id}
+                onClick={() => {
+                  onAccountChange(account);
+                }}
+              >
+                <Text>{account.kidName}</Text>
+              </Menu.Item>
             ))
           )}
           <Button w="100%" onClick={addNewAccount}>

@@ -1,12 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import { AccountData } from '../../../types/schemaTypes';
-import { Flex, Loader, em } from '@mantine/core';
+import { Flex, Loader } from '@mantine/core';
 import { CurrentSection } from '../CurrentSection/CurrentSection';
 import PeriodicsSection from '../PeriodicsSection/PeriodicsSection';
 import { useSelectedAccount } from '../../../store/useCurrentAccount';
 import accountsService from '../../../APIService/accounts';
 import OopsPage from '../../../components/base/OopsPage/Oops';
-import { useIsMobile } from '../../../hooks/configHooks.ts';
 import TaskSection from '../TaskSection/TaskSection.tsx';
 
 type AccountProps = {};
