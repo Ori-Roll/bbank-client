@@ -8,8 +8,8 @@ export const selectCurrentAccount = (
     return null;
   }
   //TODO: Fix this logic, take into account that there might be a user with different devices, each should open with it's corresponding account
-  if (!user?.selectedAccountId) {
+  if (!user?.lastOpenedAccountId) {
     return accounts[0];
   }
-  return accounts.find((account) => account.id === user.selectedAccountId);
+  return accounts.find((account) => account.id === user.lastOpenedAccountId);
 };

@@ -56,6 +56,7 @@ export type UserData = {
   name?: string;
   accounts: AccountData[];
   parentLock?: ParentLockData;
+  lastOpenedAccountId?: string;
 };
 
 export type TransactionData = {

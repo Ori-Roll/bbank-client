@@ -13,8 +13,9 @@ import { AccountData } from '../../../types/schemaTypes';
 import { useAddAccountModalToggle } from '../../../store/useModalActive';
 import accountsService from '../../../APIService/accounts';
 import { useSelectedAccount } from '../../../store/useCurrentAccount';
-
 import { IconChevronDown, IconPlus } from '@tabler/icons-react';
+import { useUserDataState, useUserMutation } from '../../../queryHooks/user';
+import { selectCurrentAccount } from '../../../utils/generalDataUtils';
 import { useEditMode } from '../../../store/useEditMode';
 
 type AccountSelectProps = {};
@@ -23,6 +24,7 @@ const AccountSelect = (props: AccountSelectProps) => {
   const selectedAccount = useSelectedAccount((state) => state?.selectedAccount);
   const theme = useMantineTheme();
   const editMode = useEditMode((state) => state.edit);
+  const { data: user } = useUserDataState();
 
   const setSelectedAccount = useSelectedAccount(
     (state) => state?.setSelectedAccount
@@ -36,8 +38,16 @@ const AccountSelect = (props: AccountSelectProps) => {
     activateAddAccountModal();
   };
 
+  const mutateUserAsync = useUserMutation();
+
   const onAccountChange = (account: AccountData) => {
     setSelectedAccount?.(account);
+    mutateUserAsync({
+      id: user!.id,
+      newUserData: {
+        lastOpenedAccountId: account.id,
+      },
+    });
   };
 
   const {
@@ -49,7 +59,16 @@ const AccountSelect = (props: AccountSelectProps) => {
     queryFn: async () => {
       const resData = await accountsService.getUserAccounts();
       if (!selectedAccount && resData.data.length) {
-        setSelectedAccount?.(resData.data[0]);
+        const selectedAccount = selectCurrentAccount(user!, resData.data);
+        if (selectedAccount) {
+          setSelectedAccount?.(selectedAccount);
+          // mutateUserAsync({
+          //   id: user!.id,
+          //   newUserData: {
+          //     lastOpenedAccountId: selectedAccount?.id,
+          //   },
+          // });
+        }
       }
       return resData.data;
     },

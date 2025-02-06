@@ -1,12 +1,11 @@
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
 import { Button, Text, useMantineTheme } from '@mantine/core';
 import { IconLock } from '@tabler/icons-react';
 import { useEditMode } from '../../../store/useEditMode';
 import ModalsWrapper from '../../../components/data/Modals/ModalWrapper';
-import { UserData } from '@/types/schemaTypes';
 import PinCodeValidate from './PinCodeValidate';
 import PinCodeCreate from './PinCodeCreate';
+import { useUserDataState } from '../../../queryHooks/user';
 
 type LockWithPinProps = {};
 
@@ -22,11 +21,7 @@ const LockWithPin = (props: LockWithPinProps) => {
   const editMode = useEditMode((state) => state.edit);
   const theme = useMantineTheme();
 
-  const { data: user } = useQuery<UserData>({
-    queryKey: ['user'],
-    refetchOnMount: false,
-    enabled: false,
-  });
+  const { data: user } = useUserDataState();
 
   const lockEditMode = () => {
     setViewMode();

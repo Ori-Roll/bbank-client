@@ -1,11 +1,11 @@
 import { Center, Loader } from '@mantine/core';
 import { useNavigate } from 'react-router';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { userService } from '../../../APIService/users';
+import { useQueryClient } from '@tanstack/react-query';
 import OopsPage from '../../../components/base/OopsPage/Oops';
 import { selectCurrentAccount } from '../../../utils/generalDataUtils';
 import { useSelectedAccount } from '../../../store/useCurrentAccount';
 import { AccountData, UserData } from '../../../types/schemaTypes';
+import { useUserQuery } from '../../../queryHooks/user';
 
 type PrivateRouteProps = {
   component: React.ComponentType;
@@ -37,16 +37,8 @@ const PrivateRoute = (props: PrivateRouteProps) => {
     isLoading,
     isFetching,
     error,
-  } = useQuery({
-    queryKey: ['user'],
-    queryFn: async () => {
-      const response = await userService.getCurrentUser();
-      const data = response.data;
-      updateCurrentAccountData(data);
-      return data;
-    },
-    refetchOnMount: false,
-  });
+  } = useUserQuery(updateCurrentAccountData);
+
   const navigate = useNavigate();
 
   if (error) {

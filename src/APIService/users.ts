@@ -4,6 +4,6 @@ import { UserData } from '../types/schemaTypes';
 export const userService = {
   getCurrentUser: () => client.get<UserData>('/users/me'),
 
-  updateProfile: (userData: Partial<UserData>) =>
-    client.patch<UserData>('/users/me', userData),
+  updateProfile: (id: string, userData: Partial<UserData>) =>
+    client.patch<UserData>(`/users/${id}`, userData),
 };
