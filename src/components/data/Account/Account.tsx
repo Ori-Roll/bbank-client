@@ -1,17 +1,20 @@
 import { useQuery } from '@tanstack/react-query';
 import { AccountData } from '../../../types/schemaTypes';
-import { Flex, Loader } from '@mantine/core';
+import { Grid, Loader } from '@mantine/core';
 import { CurrentSection } from '../CurrentSection/CurrentSection';
 import PeriodicsSection from '../PeriodicsSection/PeriodicsSection';
 import { useSelectedAccount } from '../../../store/useCurrentAccount';
 import accountsService from '../../../APIService/accounts';
 import OopsPage from '../../../components/base/OopsPage/Oops';
 import TaskSection from '../TaskSection/TaskSection.tsx';
+import { useIsMobile } from '../../../hooks/configHooks.ts';
+import style from './Account.module.css';
 
 type AccountProps = {};
 
 export const Account = (props: AccountProps) => {
   const selectedAccount = useSelectedAccount((state) => state?.selectedAccount);
+  const isMobile = useIsMobile();
 
   const {
     data: account,
@@ -32,16 +35,27 @@ export const Account = (props: AccountProps) => {
   return accountLoading ? (
     <Loader size={30} />
   ) : (
-    <Flex direction="column" gap="lg">
+    <>
       {account ? (
-        <>
-          <CurrentSection account={account} />
-          <PeriodicsSection account={account} />
-          <TaskSection account={account} />
-        </>
+        <Grid
+          className={
+            isMobile ? style.gridWrapperMobile : style.gridWrapperDesktop
+          }
+        >
+          <Grid.Col className={style.gridColCurrent}>
+            <CurrentSection account={account} />
+          </Grid.Col>
+          <Grid.Col className={style.gridColPeriodics}>
+            <PeriodicsSection account={account} />
+          </Grid.Col>
+
+          <Grid.Col className={style.gridColTasks}>
+            <TaskSection account={account} />
+          </Grid.Col>
+        </Grid>
       ) : (
         <OopsPage />
       )}
-    </Flex>
+    </>
   );
 };
