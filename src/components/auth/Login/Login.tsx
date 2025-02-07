@@ -38,10 +38,6 @@ export default function LoginPage() {
     p: isMobile ? '30px' : '40px',
   } satisfies FlexProps;
 
-  const paperStyle = {
-    width: !isMobile ? '100%' : '200px',
-  } as const;
-
   return (
     <Center w="100%">
       <Flex {...layoutStyle}>

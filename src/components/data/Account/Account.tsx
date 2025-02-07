@@ -33,7 +33,7 @@ export const Account = (props: AccountProps) => {
   });
 
   return accountLoading ? (
-    <Loader size={30} />
+    <div>Getting your account</div>
   ) : (
     <>
       {account ? (
@@ -41,6 +41,7 @@ export const Account = (props: AccountProps) => {
           className={
             isMobile ? style.gridWrapperMobile : style.gridWrapperDesktop
           }
+          p={20}
         >
           <Grid.Col className={style.gridColCurrent}>
             <CurrentSection account={account} />

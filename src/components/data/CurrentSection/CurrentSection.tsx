@@ -1,5 +1,5 @@
 import style from './CurrentSection.module.css';
-import { Container, Flex, Text } from '@mantine/core';
+import { Flex, Text } from '@mantine/core';
 import Current from '../../base/Current/Current';
 import { useEditMode } from '../../../store/useEditMode';
 import { AccountData } from '../../../types/schemaTypes';
@@ -59,7 +59,11 @@ export const CurrentSection = (props: CurrentSectionProps) => {
   // TODO: This sign is hardcoded to '$' for now
 
   return (
-    <Flex direction="column" align="center" className={style.currentSection}>
+    <Flex
+      direction="column"
+      align="flex-start"
+      className={style.currentSection}
+    >
       <Text size="xl">You have</Text>
 
       <Flex>

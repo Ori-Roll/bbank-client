@@ -1,5 +1,6 @@
-import { Flex, Space, Text, TextInput } from '@mantine/core';
+import { Flex, Space, Text } from '@mantine/core';
 import style from './Current.module.css';
+import PigiSvg from '../../../assets/pigibank_JustPig.svg';
 
 type CurrentProps<E extends boolean> = {
   current: number;
@@ -15,6 +16,7 @@ const Current = <E extends boolean>(props: CurrentProps<E>) => {
 
   return (
     <Flex align={'end'}>
+      <img style={{ height: '100px' }} src={PigiSvg} />
       <Text pb={2} className={style.currency}>
         {sign}
       </Text>

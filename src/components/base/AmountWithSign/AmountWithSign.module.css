@@ -1,6 +1,7 @@
 .formattedAmountNum {
   font-family: 'Titan One', serif;
   font-size: 4rem;
+  line-height: normal;
   color: rgb(28, 55, 207);
 }
 
@@ -8,6 +9,10 @@
   font-family: 'Titan One', serif;
   font-size: 2rem;
   color: #4f7ccf;
-  transform: translateY(-0.6rem);
-  text-shadow: 1 1 4px 4px #13336e;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  text-align: center;
+  padding-top: 0.5rem;
+  display: inline-block;
 }

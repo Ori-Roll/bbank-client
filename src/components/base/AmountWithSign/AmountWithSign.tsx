@@ -3,17 +3,17 @@ import style from './AmountWithSign.module.css';
 
 type AmountWithSignProps = {
   amount: number;
-  actionSign?: string;
+  currencySign?: string;
 };
 
 const AmountWithSign = (props: AmountWithSignProps) => {
-  const { amount, actionSign = '+' } = props;
+  const { amount, currencySign = '$' } = props;
 
   //TODO: The sign should be a prop, not hardcoded. Or maybe come from a context or config.
 
   return (
-    <Flex align="flex-end">
-      <Text className={style.formattedAmountSign}>{actionSign}</Text>
+    <Flex align="center" gap={10}>
+      <Text className={style.formattedAmountSign}>{currencySign}</Text>
       <Text className={style.formattedAmountNum}>{amount}</Text>
     </Flex>
   );
