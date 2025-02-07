@@ -1,8 +1,9 @@
-import { Container } from '@mantine/core';
+import { Container, Flex } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
-import { AccountData } from '../../../types/schemaTypes';
+import { AccountData, PeriodicData } from '../../../types/schemaTypes';
 import PeriodicCard from '../../../components/base/PeriodicCard/PeriodicCard';
 import { useIsMobile } from '../../../hooks/configHooks.ts';
+import style from './PeriodicsSection.module.css';
 
 type PeriodicsSectionProps = {
   account: AccountData;
@@ -42,33 +43,49 @@ const PeriodicsSection = (props: PeriodicsSectionProps) => {
         withControls: periodics.length > 3,
       };
 
+  if (periodics.length === 0) {
+    return null;
+  }
+
   return (
-    <Container
-      style={{
-        overflow: 'hidden',
-        width: '100%',
-      }}
-    >
-      {periodics.length ? (
+    <Container m="0">
+      {isMobile ? (
         <Carousel align="start" loop {...carouselMobileProps}>
           {periodics.map((periodic, i) => (
-            <PeriodicCard
-              key={periodic.id}
-              componentIndex={i}
-              name={periodic.name}
-              amount={periodic.amount}
-              actionName={actionTypeToMessageMap[periodic.actionType]}
-              actionSign={'+'}
-              intervalName={intervalToMessageMap[periodic.interval]}
-              nextOccurrence={periodic.nextOccurrence}
-              imageUrl="https://source.unsplash.com/random"
-            />
+            <Carousel.Slide className={style.cardWrapper} key={periodic.id}>
+              <PeriodicCardItem periodic={periodic} />
+            </Carousel.Slide>
           ))}
         </Carousel>
       ) : (
-        <div>{'No periodics yet'}</div>
+        <Flex p="0" m="0" align="flex-start" justify="flex-start" gap="lg">
+          {periodics.map((periodic) => (
+            <PeriodicCardItem key={periodic.id} periodic={periodic} />
+          ))}
+        </Flex>
       )}
     </Container>
+  );
+};
+
+type PeriodicCardItemProps = {
+  periodic: PeriodicData;
+};
+
+const PeriodicCardItem = (props: PeriodicCardItemProps) => {
+  const { periodic } = props;
+
+  return (
+    <PeriodicCard
+      key={periodic.id}
+      name={periodic.name}
+      amount={periodic.amount}
+      actionName={actionTypeToMessageMap[periodic.actionType]}
+      currencySign={'$'}
+      intervalName={intervalToMessageMap[periodic.interval]}
+      nextOccurrence={periodic.nextOccurrence}
+      imageUrl="https://source.unsplash.com/random"
+    />
   );
 };
 
